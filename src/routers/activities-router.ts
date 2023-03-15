@@ -6,4 +6,5 @@ const activitiesRouter = Router();
 activitiesRouter
   .all("/*", authenticateToken)
   .get("/:dateId");
-export default activitiesRouter;
+
+export { activitiesRouter };
