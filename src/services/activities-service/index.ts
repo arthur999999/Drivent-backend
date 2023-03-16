@@ -16,13 +16,41 @@ async function validateEnrollmentAndTicket(userId: number) {
   }
 }
 
+async function validateDateId(dateId: number) {
+  const date = await activitiesRepository.findDateById(dateId);
+
+  if (!date) throw notFoundError();
+}
+
+async function formatGetResponse(data: any[]) {
+  const res = [];
+  
+  for (const act of data) {
+    res.push({
+      id: act.id,
+      name: act.name,
+      location: act.Location.name,
+      startsAt: act.startsAt,
+      endsAt: act.endsAt,
+      duration: act.duration,
+      vacancies: (act.vacancies - act.Subscriptions.length),
+      subscribed: false
+    });
+  }
+
+  return res;
+}
+
 async function getActivities(userId: number, dateId: number) {
   await validateEnrollmentAndTicket(userId);
+  await validateDateId(dateId);
 
-  if (!dateId) throw notFoundError();
   const activities = await activitiesRepository.findActivity(dateId);
-  
-  return activities;
+  // const subscriptions = await activitiesRepository.findSubscriptionsByUser(userId);
+
+  const response = await formatGetResponse(activities);
+
+  return response;
 }
 
 const activitiesService = {

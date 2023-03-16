@@ -165,10 +165,10 @@ model Activities {
   locationId Int
   Dates      Dates @relation(fields: [dateId], references: [id])
   dateId     Int
-  day        String
   startsAt   String
   endsAt     String
   duration   Float
+  vacancies  Int  @default(1)
   Subscriptions Subscriptions[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt

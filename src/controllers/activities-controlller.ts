@@ -8,13 +8,11 @@ export async function getActivities(req: AuthenticatedRequest, res: Response) {
     const { userId } = req;
     const { dateId } = req.params;
 
-    const response = activitiesService.getActivities(userId, Number(dateId));
+    const response = await activitiesService.getActivities(userId, Number(dateId));
 
     res.send(response);
   } catch (error) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   } 
-
-  return res.send(req.body);
 }
 
