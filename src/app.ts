@@ -16,7 +16,7 @@ import {
   ticketsRouter,
   paymentsRouter,
   hotelsRouter,
-  bookingRouter,
+  bookingRouter, 
   activitiesRouter
 } from "@/routers";
 
