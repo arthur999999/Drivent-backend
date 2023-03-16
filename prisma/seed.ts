@@ -50,7 +50,59 @@ async function main() {
     }
   })
   const room = await prisma.room.findMany();
-  console.log({ event, ticketType, hotels, room });
+
+  let dates = await prisma.dates.findMany();
+  if(dates.length < 3) {
+    await prisma.dates.createMany({
+      data: [
+        { weekday: "Sexta", mounth: "05", day: "04"},
+        { weekday: "Sábado", mounth: "05", day: "05"},
+        { weekday: "Domingo", mounth: "05", day: "06"},
+      ]
+    })
+  }
+
+  let locations = await prisma.locations.findMany();
+  if (locations.length < 3) {
+    await prisma.locations.createMany({
+      data: [
+        { name: 'Auditório A' },
+        { name: 'Auditório B' },
+        { name: 'Espaço Multimídia'}
+      ]
+    })
+  }
+
+  dates = await prisma.dates.findMany();
+  locations = await prisma.locations.findMany();
+
+  await prisma.subscriptions.deleteMany()
+  await prisma.activities.deleteMany();
+
+  const activities = await prisma.activities.createMany({
+    data: [
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[2].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[2].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[2].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 }
+    ]
+  })
+
+  console.log({ event, ticketType, hotels, room, dates, locations, activities });
 }
 
 main()
