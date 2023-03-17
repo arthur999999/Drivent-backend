@@ -6,12 +6,11 @@ async function findDateById(id: number) {
   });
 }
 
-async function findActivity(dateId: number) {
+async function findActivity(dateId: number, locationId: number) {
   return prisma.activities.findMany({
-    where: { dateId },
+    where: { dateId, locationId },
     include: {
       Subscriptions: true,
-      Location: true
     }
   });
 }
@@ -26,11 +25,16 @@ async function findAllDates() {
   return prisma.dates.findMany();
 }
 
+async function findAllLocations() {
+  return prisma.locations.findMany();
+}
+
 const activitiesRepository = {
   findActivity,
   findDateById,
   findSubscriptionsByUser,
-  findAllDates
+  findAllDates,
+  findAllLocations
 };
 
 export default activitiesRepository;
