@@ -22,10 +22,15 @@ async function findSubscriptionsByUser(userId: number) {
   });
 }
 
+async function findAllDates() {
+  return prisma.dates.findMany();
+}
+
 const activitiesRepository = {
   findActivity,
   findDateById,
-  findSubscriptionsByUser
+  findSubscriptionsByUser,
+  findAllDates
 };
 
 export default activitiesRepository;

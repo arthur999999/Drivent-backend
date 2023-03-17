@@ -81,8 +81,19 @@ async function getActivities(userId: number, dateId: number) {
   return response;
 }
 
+async function getDates(userId: number) {
+  await validateEnrollmentAndTicket(userId);
+
+  const dates = await activitiesRepository.findAllDates();
+
+  if (dates.length === 0) throw notFoundError();
+
+  return dates;
+}
+
 const activitiesService = {
-  getActivities
+  getActivities,
+  getDates
 };
 
 export default activitiesService;
