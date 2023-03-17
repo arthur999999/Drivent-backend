@@ -81,24 +81,26 @@ async function main() {
 
   const activities = await prisma.activities.createMany({
     data: [
-      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "10:00", endsAt: "11:00", duration: 1, vacancies: 0 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 6 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[0].id, startsAt: "16:00", endsAt: "17:00", duration: 1, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "10:00", duration: 1, vacancies: 0 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "12:00", endsAt: "13:00", duration: 1, vacancies: 4 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 2 },
       { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[0].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
       { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[0].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 8 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "14:00", duration: 1, vacancies: 0 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "10:00", duration: 1, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 28 },
       { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[1].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[1].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 8 },
       { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[2].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[0].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 0 },
       { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[2].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 },
+      { name: faker.random.words(3), locationId: locations[1].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 0 },
       { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[2].id, startsAt: "09:00", endsAt: "11:00", duration: 2, vacancies: 10 },
-      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[2].id, startsAt: "13:00", endsAt: "15:00", duration: 2, vacancies: 10 }
+      { name: faker.random.words(3), locationId: locations[2].id, dateId: dates[2].id, startsAt: "14:00", endsAt: "15:00", duration: 1, vacancies: 4 }
     ]
   })
 
