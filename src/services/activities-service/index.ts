@@ -41,7 +41,6 @@ function formatGetResponse(data: any[]) {
     res.push({
       id: act.id,
       name: act.name,
-      location: act.Location.name,
       startsAt: act.startsAt,
       endsAt: act.endsAt,
       duration: act.duration,
@@ -69,16 +68,28 @@ async function getActivities(userId: number, dateId: number) {
   await validateEnrollmentAndTicket(userId);
   await validateDateId(dateId);
 
-  const activities = await activitiesRepository.findActivity(dateId);
-  const subscriptions = await activitiesRepository.findSubscriptionsByUser(userId);
+  const locations = await activitiesRepository.findAllLocations();
 
-  let response = formatGetResponse(activities) as Activity[];
+  const activities = [];
+  for (const loc of locations) {
+    const aux = await activitiesRepository.findActivity(dateId, loc.id);
+    const response = formatGetResponse(aux) as Activity[];
 
-  if (subscriptions.length !== 0) {
-    response = checkSubscriptions(subscriptions, response);
+    activities.push({
+      name: loc.name,
+      activities: response
+    });
   }
 
-  return response;
+  const subscriptions = await activitiesRepository.findSubscriptionsByUser(userId);
+
+  if (subscriptions.length !== 0) {
+    for(const loc of activities) {
+      checkSubscriptions(subscriptions, loc.activities);
+    }
+  }
+
+  return activities;
 }
 
 async function getDates(userId: number) {
