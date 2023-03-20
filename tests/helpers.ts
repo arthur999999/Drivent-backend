@@ -8,6 +8,10 @@ import { prisma } from "@/config";
 export async function cleanDb() {
   await prisma.address.deleteMany({});
   await prisma.payment.deleteMany({});
+  await prisma.activities.deleteMany({});
+  await prisma.dates.deleteMany({});
+  await prisma.subscriptions.deleteMany({});
+  await prisma.locations.deleteMany({});
   await prisma.ticket.deleteMany({});
   await prisma.enrollment.deleteMany({});
   await prisma.event.deleteMany({});
