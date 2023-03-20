@@ -112,13 +112,22 @@ async function getActivityById(activityId: number) {
 
 async function isSameHour(userId: number, activityFound: Activities) {
   const activity = await activitiesRepository.findActivityByUser(userId);
+  if(!activity[0]) {
+    return;
+  }
   for(let i = 0; activity.length > i; i++ ) {
     if((activity[i].activity.dateId == activityFound.dateId)) {
       const time1 = (activity[i].activity.startsAt.split(":")).join("");
       const time2 = (activityFound.startsAt.split(":")).join("");
       const time3 = (activityFound.endsAt.split(":")).join("");
       const time4 = (activity[i].activity.endsAt.split(":")).join("");
-      if( Number(time4) <= Number(time3) && Number(time1) <= Number(time2)) {
+      if( Number(time1) < Number(time2) && Number(time4) > Number(time2)) {
+        throw conflictError("");
+      }
+      if( Number(time1) > Number(time2) && Number(time1) < Number(time3)) {
+        throw conflictError("");
+      }
+      if(Number(time1) === Number(time2)) {
         throw conflictError("");
       }
     }
