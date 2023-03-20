@@ -1,8 +1,8 @@
-import { cannotBookingError, notFoundError } from "@/errors";
+import { cannotBookingError, conflictError, notFoundError } from "@/errors";
 import activitiesRepository from "@/repositories/activities-repository";
 import enrollmentRepository from "@/repositories/enrollment-repository";
 import tikectRepository from "@/repositories/ticket-repository";
-import { Subscriptions } from "@prisma/client";
+import { Activities, Subscriptions } from "@prisma/client";
 
 type Activity = {
   id: number;
@@ -102,9 +102,44 @@ async function getDates(userId: number) {
   return dates;
 }
 
+async function getActivityById(activityId: number) {
+  const activity = await activitiesRepository.findActivityById(activityId);
+  if(!activity) {
+    throw notFoundError();
+  }
+  return activity;
+}
+
+async function isSameHour(userId: number, activityFound: Activities) {
+  const activity = await activitiesRepository.findActivityByUser(userId);
+  for(let i = 0; activity.length > i; i++ ) {
+    if((activity[i].activity.dateId == activityFound.dateId)) {
+      const time1 = (activity[i].activity.startsAt.split(":")).join("");
+      const time2 = (activityFound.startsAt.split(":")).join("");
+      const time3 = (activityFound.endsAt.split(":")).join("");
+      const time4 = (activity[i].activity.endsAt.split(":")).join("");
+      if( Number(time4) <= Number(time3) && Number(time1) <= Number(time2)) {
+        throw conflictError("");
+      }
+    }
+  }
+}
+
+async function createSubscription(userId: number, acitivityId: number) {
+  await activitiesRepository.createSubscription(userId, acitivityId);
+}
+
+async function removeVacancie(acitivityId: number, vacancies: number) {
+  await activitiesRepository.removeVacancie(acitivityId, vacancies);
+}
+
 const activitiesService = {
   getActivities,
-  getDates
+  getDates,
+  getActivityById,
+  isSameHour,
+  createSubscription,
+  removeVacancie
 };
 
 export default activitiesService;

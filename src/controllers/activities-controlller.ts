@@ -28,3 +28,30 @@ export async function getActivities(req: AuthenticatedRequest, res: Response) {
   } 
 }
 
+export async function selectActivity(req: AuthenticatedRequest, res: Response) {
+  try {
+    const { userId } = req;
+    const { activityId } = req.params;
+
+    const activity = await activitiesService.getActivityById(Number(activityId));
+    if(activity.vacancies === 0) {
+      res.sendStatus(400);
+    }
+    await activitiesService.isSameHour(userId, activity);
+    await activitiesService.createSubscription(userId, Number(activityId));
+    await activitiesService.removeVacancie(Number(activityId), activity.vacancies);
+
+    res.sendStatus(200);
+  } catch (error) {
+    if(error.name === "NotFoundError") {
+      res.sendStatus(404);
+      return;
+    }
+    if (error.name === "ConflictError") {
+      res.sendStatus(httpStatus.CONFLICT);
+      return;
+    }
+    res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
+
