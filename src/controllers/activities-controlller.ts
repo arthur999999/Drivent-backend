@@ -39,7 +39,6 @@ export async function selectActivity(req: AuthenticatedRequest, res: Response) {
     }
     await activitiesService.isSameHour(userId, activity);
     await activitiesService.createSubscription(userId, Number(activityId));
-    await activitiesService.removeVacancie(Number(activityId), activity.vacancies);
 
     res.sendStatus(200);
   } catch (error) {
